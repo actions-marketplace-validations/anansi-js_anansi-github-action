@@ -6,5 +6,13 @@ inputs:
     required: true
     description: 'path to the crawler config file'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "composite"
+  steps:
+    - uses: browser-actions/setup-chrome@v1
+    - name: Check out git repository
+      uses: actions/checkout@v3
+
+    - name: Now calling the node action in directory ./actions/node-action
+      uses: anansi-js/anansi-github-action/actions/node-action@main
+      with:
+        configPath: ${{ inputs.configPath }}
